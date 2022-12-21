@@ -34,7 +34,14 @@ let authorize = (req, res, next) => {
 };
 
 let products = [];
-
+app.get("/",(req,res)=>{
+  try {
+    res.send("welcome")
+  } catch (error) {
+    res.send(error).status(401).json({ message: "Something went wrong" });
+    
+  }
+})
 app.post("/user/register", async (req, res) => {
   try {
     // Connect the Database
