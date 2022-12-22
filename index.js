@@ -33,7 +33,6 @@ let authorize = (req, res, next) => {
   }
 };
 
-let products = [];
 app.get("/",(req,res)=>{
   try {
     res.send("welcome")
@@ -80,6 +79,7 @@ app.post("/user/login", async (req, res) => {
 
     if (user) {
       const compare = await bcrypt.compare(req.body.password, user.password);
+      console.log(compare);
       if (compare) {
         // Issue Token
         const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
@@ -87,12 +87,15 @@ app.post("/user/login", async (req, res) => {
         });
         res.json({ message: "Success", token });
       } else {
-        res.json({ message: "Incorrect Username/Password" });
+        console.log("afaf");
+        res.status(404).json({ message: "Incorrect Username/Password" });
       }
     } else {
       res.status(404).json({ message: "Incorrect Username/Password" });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(404).json({ message: "Incorrect Username/Password" });
+  }
 });
 
 // Create
